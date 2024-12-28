@@ -1,5 +1,4 @@
-import Image from 'next/image';
-import styles from '../styles/products.module.css';
+import Header from '@/components/Header';
 
 export default function Products() {
   const products = [
@@ -10,45 +9,13 @@ export default function Products() {
     // More products can go here...
   ];
 
-  // Group products by category
-  const groupedProducts = products.reduce((acc, product) => {
-    if (!acc[product.category]) {
-      acc[product.category] = [];
-    }
-    acc[product.category].push(product);
-    return acc;
-  }, {});
-
   return (
-    <div className="products-page">
-      <h1 className="page-title">Our Products</h1>
-
-      {/* Category-wise Products */}
-      {Object.keys(groupedProducts).map((category) => (
-        <section key={category} className="category-section">
-          <h2 className="category-title">{category}</h2>
-          <div className="product-grid">
-            {groupedProducts[category].map((product) => (
-              <div key={product.id} className="product-card">
-                <div className="product-image">
-                  <Image
-                    src={product.image}
-                    alt={product.name}
-                    width={400}
-                    height={300}
-                    className="image"
-                  />
-                </div>
-                <div className="product-info">
-                  <h3 className="product-name">{product.name}</h3>
-                  <p className="product-price">{product.price}</p>
-                  <button className="add-to-cart-btn">Add to Cart</button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-      ))}
+    <div className="container">
+      <div className="row">
+        <div className="col-6 offset-3">
+          <Header />
+        </div>
+      </div> 
     </div>
   );
 }
