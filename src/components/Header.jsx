@@ -6,13 +6,14 @@ const Header=()=> {
     const router = useRouter();
 
     return (
-        <header className="container-fluid bg-dark p-3">
-            Header
+        <header className="container-fluid bg-secondary p-3">
             <div className="row align-items-center">
                 <div className="col-3">
-                    <p className="text-white pointer-icon" onClick={()=> {router.push('/')}}>SmartEcommerce</p>
+                    <p className="font-italic text-white pointer-icon m-0" onClick={()=> {router.push('/')}}>Smart Ecommerce</p>
                 </div>
-                <SearchBar />
+                <div className="col-9">
+                    <SearchBar />
+                </div>
             </div>
         </header>
     )
