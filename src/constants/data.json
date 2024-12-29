@@ -1,0 +1,64 @@
+{
+    "popularCategories": [
+        {
+            "id": 1,
+            "name": "Smart Phones",
+            "image": "cellphones.jpg"
+        },
+        {
+            "id": 2,
+            "name": "TV",
+            "image": "tv.jpg"
+        },
+        {
+            "id": 3,
+            "name": "Fragrances",
+            "image": "fragrances.jpg"
+        },
+        {
+            "id": 4,
+            "name": "Smart Watches",
+            "image": "smartwatches.jpg"
+        },
+        {
+            "id": 5,
+            "name": "Notebooks",
+            "image": "notebooks.jpg"
+        },
+        {
+            "id": 6,
+            "name": "Tablets",
+            "image": "tablets.jpg"
+        },
+        {
+            "id": 7,
+            "name": "HeadPhones",
+            "image": "headphones.jpg"
+        },
+        {
+            "id": 8,
+            "name": "Bicyles",
+            "image": "bicycle.jpg"
+        },
+        {
+            "id": 9,
+            "name": "Game consoles",
+            "image": "gameconsole.jpg"
+        },
+        {
+            "id": 10,
+            "name": "Jackets",
+            "image": "jackets.jpg"
+        },
+        {
+            "id": 11,
+            "name": "Sneakers",
+            "image": "sneakers.jpg"
+        },
+        {
+            "id": 12,
+            "name": "Vacuum cleaner",
+            "image": "vaccum.jpg"
+        }
+    ]
+}

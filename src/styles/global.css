@@ -1,0 +1,9 @@
+.pointer-icon {
+    cursor: pointer;
+}
+
+.font-italic {
+    font-style: italic;
+    font-size: large;
+    font-weight: bold;
+}

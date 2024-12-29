@@ -1,0 +1,13 @@
+/* styles.css */
+.fixed-size-card {
+  width: 18rem;    /* Fixed width for card */
+  height: 300px;   /* Fixed height for card */
+  display: flex;
+  flex-direction: column;
+}
+
+.card-img-top {
+  width: 100%;     /* Full width of the card */
+  height: 150px;   /* Fixed height */
+  object-fit: cover; /* Cover the area without distortion */
+}
