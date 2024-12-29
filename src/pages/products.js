@@ -4,8 +4,7 @@ import PopularProducts from '@/components/PopularProducts';
 export default function Products() {
 
   return (
-    
-    <div className="row">
+    <div>
       <div className="col-12">
         <Header />
       </div>
@@ -13,6 +12,5 @@ export default function Products() {
           <PopularProducts />
       </div>
     </div> 
-    
   );
 }
