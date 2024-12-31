@@ -1,9 +1,8 @@
 import Header from '@/components/Header';
 import PopularProducts from '@/components/PopularProducts';
-
 import data from '../constants/data.json';
 
-export default function Products() {
+export default function SearchedProduct() {
 
   return (
     <div>
@@ -11,7 +10,7 @@ export default function Products() {
         <Header />
       </div>
       <div className="container">
-          <PopularProducts popularProducts={data} />
+          <PopularProducts searchedProduct={data} />
       </div>
     </div> 
   );
