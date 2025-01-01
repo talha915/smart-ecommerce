@@ -1,5 +1,5 @@
-import Header from '@/components/Header';
-import PopularProducts from '@/components/PopularProducts';
+import Header from '@/components/header';
+import PopularProducts from '@/components/popularProducts';
 
 import data from '../constants/data.json';
 

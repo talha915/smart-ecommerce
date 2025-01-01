@@ -3,8 +3,8 @@ import '../styles/popularproducts.module.css';
 
 const PopularProducts = (props) => {
 
-    console.log("Props: ", props);
     let data;
+
     if(props?.popularProducts?.popularCategories) {
         data = props?.popularProducts?.popularCategories;
     }
