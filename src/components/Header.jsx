@@ -1,4 +1,4 @@
-import SearchBar from "./SearchBar";
+import SearchBar from "./searchBar";
 import { useRouter } from 'next/router';
 
 const Header=()=> {
