@@ -5,7 +5,7 @@ import time
 import random
 from bs4 import BeautifulSoup
 import pandas as pd
-
+import os
 
 class DarazScraper:
     def __init__(self, driver_path):
@@ -63,22 +63,27 @@ class DarazScraper:
         df.to_csv(filename, index=False)
         print(f"Data saved to {filename}")
 
-    def scrape(self, url, output_file, scroll_times=3):
+    def scrape(self, url, scroll_times=3):
         """Perform the entire scraping process."""
         try:
             html_content = self.fetch_page(url, scroll_times)
             data = self.parse_page(html_content)
+            current_dir = os.path.dirname(os.path.abspath(__file__))
+            modules_dir = os.path.join(current_dir, "../")
+            datasets_dir = os.path.join(modules_dir, "datasets")
+            os.makedirs(datasets_dir, exist_ok=True)
+            output_file = os.path.join(datasets_dir, "daraz_products.csv")
             self.save_to_csv(data, output_file)
         finally:
             self.driver.quit()
 
 
-# Usage Example
-if __name__ == "__main__":
-    driver_path = "E:/D/chromedriver-win32/chromedriver-win32/chromedriver.exe"
-    scraper = DarazScraper(driver_path)
-    query = "samsung+s24"
-    url = f"https://www.daraz.pk/catalog/?q={query}"
-    output_file = "../datasets/daraz_products.csv"
+# # Usage Example
+# if __name__ == "__main__":
+#     driver_path = "E:/D/chromedriver-win32/chromedriver-win32/chromedriver.exe"
+#     scraper = DarazScraper(driver_path)
+#     query = "samsung+s24"
+#     url = f"https://www.daraz.pk/catalog/?q={query}"
+#     output_file = "../datasets/daraz_products.csv"
 
-    scraper.scrape(url, output_file)
+#     scraper.scrape(url, output_file)
