@@ -47,7 +47,7 @@ df = pd.DataFrame({
     'product_title': product_titles,
     'product_price': product_prices,
     'product_link': product_links,
-    'product_ratings': product_ratings,
+    # 'product_ratings': product_ratings,
     'product_image': product_images
 })
 
