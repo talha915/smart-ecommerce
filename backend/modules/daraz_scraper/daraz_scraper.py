@@ -74,16 +74,8 @@ class DarazScraper:
             os.makedirs(datasets_dir, exist_ok=True)
             output_file = os.path.join(datasets_dir, "daraz_products.csv")
             self.save_to_csv(data, output_file)
+            return {
+                "data": data
+            }
         finally:
             self.driver.quit()
-
-
-# # Usage Example
-# if __name__ == "__main__":
-#     driver_path = "E:/D/chromedriver-win32/chromedriver-win32/chromedriver.exe"
-#     scraper = DarazScraper(driver_path)
-#     query = "samsung+s24"
-#     url = f"https://www.daraz.pk/catalog/?q={query}"
-#     output_file = "../datasets/daraz_products.csv"
-
-#     scraper.scrape(url, output_file)
