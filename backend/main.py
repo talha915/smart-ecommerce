@@ -2,6 +2,7 @@ from fastapi import FastAPI, Query
 from fastapi.middleware.cors import CORSMiddleware
 from modules.daraz_scraper.daraz_scraper import DarazScraper
 from modules.flipkart.flipkart_scraper import FlipkartScraper
+import pandas as pd
 
 app = FastAPI()
 
@@ -23,12 +24,11 @@ def scrape_daraz(
     """
     scraper = DarazScraper(driver_path)
     url = f"https://www.daraz.pk/catalog/?q={query}"
-    df = scraper.scrape(url)
-
+    response = scraper.scrape(url)
     # Return data as JSON
     return {
-        "response": "Data has been written",
-        "status_code": 200
+        "data": response.get('data'),
+        "response_code": 200
     }
 
 
@@ -39,5 +39,9 @@ def scrape_flipkart(query: str = Query(..., description="Search query for Flipka
     """
     url = f"https://www.flipkart.com/search?q={query}"
     scraper = FlipkartScraper(url)
-    scraper.scrape()
+    data = scraper.scrape()
+    return {
+        "data": data['data'],
+        "response_code": 200
+    }
     

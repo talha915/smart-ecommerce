@@ -5,7 +5,7 @@ import time
 import random
 from bs4 import BeautifulSoup
 import pandas as pd
-import os
+import os, json
 
 class DarazScraper:
     def __init__(self, driver_path):
@@ -62,6 +62,7 @@ class DarazScraper:
         df = pd.DataFrame(data)
         df.to_csv(filename, index=False)
         print(f"Data saved to {filename}")
+        return df
 
     def scrape(self, url, scroll_times=3):
         """Perform the entire scraping process."""
@@ -73,9 +74,13 @@ class DarazScraper:
             datasets_dir = os.path.join(modules_dir, "datasets")
             os.makedirs(datasets_dir, exist_ok=True)
             output_file = os.path.join(datasets_dir, "daraz_products.csv")
-            self.save_to_csv(data, output_file)
+            data = self.save_to_csv(data, output_file)
+            json_data = data.to_json(orient="records", force_ascii=False)
+            json_obj = json.loads(json_data)
+            pretty_json = json.dumps(json_obj, indent=4, ensure_ascii=False)
             return {
-                "data": data
+                "data": pretty_json
+
             }
         finally:
             self.driver.quit()

@@ -62,10 +62,10 @@ class FlipkartScraper:
         df.to_csv(output_file, index=False)
         print("Data has been saved to flipkart_products.csv")
         return {
-            "data": df
+            "data": df.to_json()
         }
 
-# Example usage:
-url = "https://www.flipkart.com/search?q=samsung%20s24"
-scraper = FlipkartScraper(url)
-scraper.scrape()
+# # Example usage:
+# url = "https://www.flipkart.com/search?q=samsung%20s24"
+# scraper = FlipkartScraper(url)
+# scraper.scrape()
