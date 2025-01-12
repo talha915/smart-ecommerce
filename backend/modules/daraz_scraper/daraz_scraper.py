@@ -5,7 +5,7 @@ import time
 import random
 from bs4 import BeautifulSoup
 import pandas as pd
-import os
+import os, json
 
 class DarazScraper:
     def __init__(self, driver_path):
@@ -45,15 +45,17 @@ class DarazScraper:
             price = product.find('span', class_='ooOxS')
             link = product.find('a', href=True)
             location = product.find('span', class_='oa6ri')
-            image = product.find('img', {'src': True})
+            # image = product.find('img', {'src': True})
+            product_image = product.find('div', class_='picture-wrapper').find('img')
 
-            product_data.append({
-                "product_title": title['title'] if title else "No title",
-                "product_price": price.get_text(strip=True) if price else "No price",
-                "product_link": "https:" + link['href'] if link else "No link",
-                # "product_location": location.get_text(strip=True) if location else "No location",
-                "product_image": image['src'] if image else "No image",
-            })
+            if "img.drz.lazcdn.com" in product_image['src']:
+                product_data.append({
+                    "product_title": title['title'] if title else "No title",
+                    "product_price": price.get_text(strip=True) if price else "No price",
+                    "product_link": "https:" + link['href'] if link else "No link",
+                    # "product_location": location.get_text(strip=True) if location else "No location",
+                    "product_image": product_image['src'] if "img.drz.lazcdn.com" in product_image['src'] else "No image",
+                })
 
         return product_data
 
@@ -62,6 +64,7 @@ class DarazScraper:
         df = pd.DataFrame(data)
         df.to_csv(filename, index=False)
         print(f"Data saved to {filename}")
+        return df
 
     def scrape(self, url, scroll_times=3):
         """Perform the entire scraping process."""
@@ -73,17 +76,10 @@ class DarazScraper:
             datasets_dir = os.path.join(modules_dir, "datasets")
             os.makedirs(datasets_dir, exist_ok=True)
             output_file = os.path.join(datasets_dir, "daraz_products.csv")
-            self.save_to_csv(data, output_file)
+            data = self.save_to_csv(data, output_file)
+            json_data = data.to_dict(orient="records")
+            return {
+                "data": json_data
+            }
         finally:
             self.driver.quit()
-
-
-# # Usage Example
-# if __name__ == "__main__":
-#     driver_path = "E:/D/chromedriver-win32/chromedriver-win32/chromedriver.exe"
-#     scraper = DarazScraper(driver_path)
-#     query = "samsung+s24"
-#     url = f"https://www.daraz.pk/catalog/?q={query}"
-#     output_file = "../datasets/daraz_products.csv"
-
-#     scraper.scrape(url, output_file)
