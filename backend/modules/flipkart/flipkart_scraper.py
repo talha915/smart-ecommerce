@@ -55,10 +55,6 @@ class FlipkartScraper:
         else:
             feature_list = ["No features"]
         self.product_features.append(feature_list)
-        # product_feature_list = product_features.find_all('li')
-        # product_features = [feature.text for feature in product_feature_list]
-        # self.product_features = product_features
-        # print(self.product_features)
 
     def save_to_csv(self):
         # Create DataFrame
