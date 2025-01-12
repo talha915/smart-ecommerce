@@ -11,6 +11,7 @@ class FlipkartScraper:
         self.product_links = []
         self.product_images = []
         self.product_ratings = []
+        self.product_features = []
 
     def scrape(self):
         r = requests.get(self.url)
@@ -45,13 +46,24 @@ class FlipkartScraper:
         product_link = product.find('a', class_='CGtC98')
         self.product_links.append("https://www.flipkart.com" + product_link['href'] if product_link else "No product Link")
 
+        # Extract Product Features
+        product_features = product.find('ul', class_='G4BRas')
+        feature_list = []
+        if product_features:
+            feature_items = product_features.find_all('li')
+            feature_list = [item.text.strip() for item in feature_items] if feature_items else ["No features"]
+        else:
+            feature_list = ["No features"]
+        self.product_features.append(feature_list)
+
     def save_to_csv(self):
         # Create DataFrame
         df = pd.DataFrame({
             'product_title': self.product_titles,
             'product_price': self.product_prices,
             'product_link': self.product_links,
-            'product_image': self.product_images
+            'product_image': self.product_images,
+            'product_features': self.product_features
         })
 
         current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -67,11 +79,3 @@ class FlipkartScraper:
             "data": json_data
         }
         
-        # return {
-        #     "data": df.to_json()
-        # }
-
-# # Example usage:
-# url = "https://www.flipkart.com/search?q=samsung%20s24"
-# scraper = FlipkartScraper(url)
-# scraper.scrape()
