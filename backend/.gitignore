@@ -1,0 +1,4 @@
+# Ignore all files in modules/datasets
+modules/datasets/*
+__pycache__
+modules/__pycache__
