@@ -45,15 +45,17 @@ class DarazScraper:
             price = product.find('span', class_='ooOxS')
             link = product.find('a', href=True)
             location = product.find('span', class_='oa6ri')
-            image = product.find('img', {'src': True})
+            # image = product.find('img', {'src': True})
+            product_image = product.find('div', class_='picture-wrapper').find('img')
 
-            product_data.append({
-                "product_title": title['title'] if title else "No title",
-                "product_price": price.get_text(strip=True) if price else "No price",
-                "product_link": "https:" + link['href'] if link else "No link",
-                # "product_location": location.get_text(strip=True) if location else "No location",
-                "product_image": image['src'] if image else "No image",
-            })
+            if "img.drz.lazcdn.com" in product_image['src']:
+                product_data.append({
+                    "product_title": title['title'] if title else "No title",
+                    "product_price": price.get_text(strip=True) if price else "No price",
+                    "product_link": "https:" + link['href'] if link else "No link",
+                    # "product_location": location.get_text(strip=True) if location else "No location",
+                    "product_image": product_image['src'] if "img.drz.lazcdn.com" in product_image['src'] else "No image",
+                })
 
         return product_data
 
@@ -75,12 +77,9 @@ class DarazScraper:
             os.makedirs(datasets_dir, exist_ok=True)
             output_file = os.path.join(datasets_dir, "daraz_products.csv")
             data = self.save_to_csv(data, output_file)
-            json_data = data.to_json(orient="records", force_ascii=False)
-            json_obj = json.loads(json_data)
-            pretty_json = json.dumps(json_obj, indent=4, ensure_ascii=False)
+            json_data = data.to_dict(orient="records")
             return {
-                "data": pretty_json
-
+                "data": json_data
             }
         finally:
             self.driver.quit()

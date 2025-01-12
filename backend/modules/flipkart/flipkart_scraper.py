@@ -21,7 +21,8 @@ class FlipkartScraper:
         for product in products:
             self._extract_product_details(product)
 
-        self.save_to_csv()
+        json_df = self.save_to_csv()
+        return json_df
 
     def _extract_product_details(self, product):
         # Extract product title
@@ -61,9 +62,14 @@ class FlipkartScraper:
         # Save DataFrame to CSV
         df.to_csv(output_file, index=False)
         print("Data has been saved to flipkart_products.csv")
+        json_data = df.to_dict(orient="records")
         return {
-            "data": df.to_json()
+            "data": json_data
         }
+        
+        # return {
+        #     "data": df.to_json()
+        # }
 
 # # Example usage:
 # url = "https://www.flipkart.com/search?q=samsung%20s24"

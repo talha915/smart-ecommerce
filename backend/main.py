@@ -39,9 +39,10 @@ def scrape_flipkart(query: str = Query(..., description="Search query for Flipka
     """
     url = f"https://www.flipkart.com/search?q={query}"
     scraper = FlipkartScraper(url)
-    data = scraper.scrape()
+    response = scraper.scrape()
+    # Return data as JSON
     return {
-        "data": data['data'],
+        "data": response.get('data'),
         "response_code": 200
     }
     
