@@ -7,7 +7,6 @@ function HeroImage() {
   const router = useRouter();
 
   const handleNavigation = () => {
-    console.log("Hello");
     router.push('/products');
   };
 

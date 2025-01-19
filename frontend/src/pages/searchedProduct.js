@@ -1,8 +1,12 @@
 import Header from '@/components/header';
-import PopularProducts from '@/components/popularProducts';
+import CardRender from '@/components/cardRender';
 import data from '../constants/data.json';
 
+import { useRouter } from 'next/router';
+
 function searchedProduct() {
+
+  const router = useRouter();
 
   return (
     <div>
@@ -10,7 +14,7 @@ function searchedProduct() {
         <Header />
       </div>
       <div className="container">
-          <PopularProducts searchedProduct={data} />
+          <CardRender searchedProduct={data} />
       </div>
     </div> 
   );
