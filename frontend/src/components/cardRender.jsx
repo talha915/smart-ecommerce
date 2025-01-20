@@ -26,8 +26,8 @@ const CardRender = (props) => {
     const renderProducts = data.map((data, index) => {
         return (
             <div className="col-4 pt-5 pr-5" key={index}>
-                <Card style={{ width: '18rem' }} className="pointer-icon fixed-size-card" onClick={ router.pathname == '/products' ? ()=>handleNavigation(data.name) : ''}>
-                    <Card.Img variant="top" src={router.pathname == '/searchedProduct' ? data.product_image : data.image} className="card-img-top" />
+                <Card style={{ width: '18rem', height: '550px' }} className="pointer-icon fixed-size-card" onClick={ router.pathname == '/products' ? ()=>handleNavigation(data.name) : ''}>
+                    <Card.Img style={{height: '425px'}} variant="top" src={router.pathname == '/searchedProduct' ? data.product_image : data.image} className="card-img-top" />
                     <Card.Body>
                         <Card.Title className="text-center">{router.pathname == '/searchedProduct' ? data.product_title : data.name}</Card.Title>
                     </Card.Body>

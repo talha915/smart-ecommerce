@@ -1,7 +1,7 @@
 import Header from '@/components/header';
 import CardRender from '@/components/cardRender';
 import { useEffect, useState } from 'react';
-import { fetchFlipkartData } from '../utils/apiFetch';
+import { fetchFlipkartData, fetchDarazData } from '../utils/apiFetch';
 
 import { useRouter } from 'next/router';
 
@@ -10,16 +10,17 @@ function searchedProduct() {
   const [flipkartApiData, setFlipkartData] = useState(null);
   const [darazApiData, setDarazData] = useState(null);
   const [error, setError] = useState(null);
+  const [category, setCategory] = useState(null);
   const router = useRouter();
 
-  const category = router.asPath.split('=')[1]
-
-  console.log("Router: ", category);
-
   useEffect(() => {
+
+    setCategory(router.asPath.split('=')[1])
+    console.log("Router: ", category);
+
     const getData = async () => {
       try {
-        const flipkartData = await fetchFlipkartData(category);
+        const flipkartData = await fetchDarazData(category);
         setFlipkartData(flipkartData);
         console.log("Flipkart fetched", flipkartData);
       } 
@@ -44,7 +45,7 @@ function searchedProduct() {
     };
 
     getDarazData();
-  }, []);
+  }, [category]);
 
   return (
     <div>
