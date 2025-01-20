@@ -28,7 +28,19 @@ class FlipkartScraper:
     def _extract_product_details(self, product):
         # Extract product title
         product_title = product.find('div', class_='KzDlHZ')
-        self.product_titles.append(product_title.text if product_title else "No title")
+
+        if product_title:
+            self.product_titles.append(product_title.text)
+        else:
+            product_title = product.find('a')
+            # Extract the title attribute directly
+            if product_title and 'title' in product_title.attrs:
+                # If <a> tag and title attribute exist
+                self.product_titles.append(product_title['title'])
+            else:
+                # If no <a> tag or no title attribute
+                self.product_titles.append("No title")
+
 
         # Extract product rating
         product_rating = product.find('div', class_='_5OesEi')
@@ -36,7 +48,8 @@ class FlipkartScraper:
 
         # Extract product price
         product_price = product.find('div', class_='Nx9bqj _4b5DiR')
-        self.product_prices.append(product_price.text.split('₹')[1].replace(',', '') if product_price else "No Product Price")
+        product_price = int(product_price.text.split('₹')[1].replace(',', ''))*3 if product_price else "No Product Price"
+        self.product_prices.append(product_price)
 
         # Extract product image URL
         product_image = product.find('img', class_='DByuf4')

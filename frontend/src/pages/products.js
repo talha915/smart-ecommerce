@@ -1,5 +1,5 @@
 import Header from '@/components/header';
-import PopularProducts from '@/components/popularProducts';
+import CardRender from '@/components/cardRender';
 
 import data from '../constants/data.json';
 
@@ -11,7 +11,7 @@ export default function Products() {
         <Header />
       </div>
       <div className="container">
-          <PopularProducts popularProducts={data} />
+          <CardRender popularProducts={data} />
       </div>
     </div> 
   );
