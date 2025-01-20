@@ -81,20 +81,19 @@ def scrape_products(
     # Ensure price is numeric for sorting
     combined_df['product_price'] = pd.to_numeric(combined_df['product_price'], errors='coerce')
 
-    # Drop rows with invalid prices
+    # # # Drop rows with invalid prices
     combined_df = combined_df.dropna(subset=['product_price'])
-
-    # Sort by price in ascending order
+    print(combined_df.columns)
+    print(combined_df.head(5))
+    # # Sort by price in ascending order
     combined_df = combined_df.sort_values(by='product_price', ascending=True)
 
     # Convert back to JSON
     result = combined_df.to_dict(orient='records')
 
+    print(result)
+
     return {
         "data": result,
-        "response_code": 200,
-        "source_counts": {
-            "daraz": len(daraz_data),
-            "flipkart": len(flipkart_data)
-        }
+        "response_code": 200
     }    

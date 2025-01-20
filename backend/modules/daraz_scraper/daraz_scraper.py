@@ -80,15 +80,15 @@ class DarazScraper:
             product_image = product.find('div', class_='picture-wrapper').find('img')
 
             if "img.drz.lazcdn.com" in product_image['src']:
-                product_price = price.get_text(strip=True) if price else "No price"
+                product_price = price.get_text(strip=True) if price else None
                 
                 # Attempt to convert the price to a float, if possible
                 try:
                     product_price = float(product_price.replace("Rs.", "").replace(",", "").strip())
                     if product_price != product_price:  # Check if NaN
-                        product_price = 0  # Replace NaN with 0
+                        product_price = None  # Replace NaN with 0
                 except ValueError:
-                    product_price = 0  # Default to 0 if conversion fails
+                    product_price = None  # Default to 0 if conversion fails
 
                 product_data.append({
                     "product_title": title['title'] if title else "No title",
@@ -96,6 +96,7 @@ class DarazScraper:
                     "product_link": "https:" + link['href'] if link else "No link",
                     # "product_location": location.get_text(strip=True) if location else "No location",
                     "product_image": product_image['src'] if "img.drz.lazcdn.com" in product_image['src'] else "No image",
+                    "product_features": None
                 })
 
         return product_data
