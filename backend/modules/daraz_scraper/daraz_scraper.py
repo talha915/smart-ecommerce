@@ -49,9 +49,10 @@ class DarazScraper:
             product_image = product.find('div', class_='picture-wrapper').find('img')
 
             if "img.drz.lazcdn.com" in product_image['src']:
+                price = price.get_text(strip=True) if price else "No price"
                 product_data.append({
                     "product_title": title['title'] if title else "No title",
-                    "product_price": price.get_text(strip=True) if price else "No price",
+                    "product_price": int(price.replace("Rs.", "").replace(",", "").strip()),
                     "product_link": "https:" + link['href'] if link else "No link",
                     # "product_location": location.get_text(strip=True) if location else "No location",
                     "product_image": product_image['src'] if "img.drz.lazcdn.com" in product_image['src'] else "No image",

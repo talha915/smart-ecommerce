@@ -1,57 +1,45 @@
 import Header from '@/components/header';
 import CardRender from '@/components/cardRender';
 import { useEffect, useState } from 'react';
-import { fetchFlipkartData, fetchDarazData } from '../utils/apiFetch';
+import { fetchProductsData } from '../utils/apiFetch';
 import { useRouter } from 'next/router';
 
 function SearchedProduct() {
-  const [flipkartApiData, setFlipkartData] = useState(null);
-  const [darazApiData, setDarazData] = useState(null);
+  const [apiData, setData] = useState(null);
+  const [category, setCategory] = useState(null); // State to manage category
   const [error, setError] = useState(null);
-  const [category, setCategory] = useState(null);
   const router = useRouter();
 
-  // Update category when the route changes
+  // Update category whenever the router changes
   useEffect(() => {
-    const categoryFromUrl = router.asPath.split('=')[1];
-    setCategory(categoryFromUrl || null);
-  }, [router.asPath]);
+    const currentCategory = router.query.category || router.asPath.split('=')[1];
+    if (currentCategory !== category) {
+      setCategory(currentCategory);
+      console.log("Updated Category:", currentCategory);
+    }
+  }, [router.query.category, router.asPath]);
 
-  // Fetch Flipkart data when the category changes
+  // Fetch data when category updates
   useEffect(() => {
-    if (!category) return;
+    if (!category) {
+      console.log("Category not set, skipping API call.");
+      return;
+    }
 
-    const fetchFlipkart = async () => {
+    const getData = async () => {
       try {
-        const flipkartData = await fetchFlipkartData(category);
-        setFlipkartData(flipkartData);
-        console.log("Flipkart fetched", flipkartData);
+        console.log(`Fetching data for category: ${category}`);
+        const fetchData = await fetchProductsData(category);
+        setData(fetchData);
+        console.log("Data fetched:", fetchData);
       } catch (err) {
-        console.error("Error fetching Flipkart data:", err);
+        console.error("Error fetching data:", err);
         setError(err);
       }
     };
 
-    fetchFlipkart();
-  }, [category]);
-
-  // Fetch Daraz data when the category changes
-  useEffect(() => {
-    if (!category) return;
-
-    const fetchDaraz = async () => {
-      try {
-        const darazData = await fetchDarazData(category);
-        setDarazData(darazData);
-        console.log("Daraz data fetched", darazData);
-      } catch (err) {
-        console.error("Error fetching Daraz data:", err);
-        setError(err);
-      }
-    };
-
-    fetchDaraz();
-  }, [category]);
+    getData();
+  }, [category]); // Dependency on state variable `category`
 
   return (
     <div>
@@ -59,17 +47,12 @@ function SearchedProduct() {
         <Header />
       </div>
       <div className="container">
-        {flipkartApiData ? (
-          <CardRender searchedProduct={flipkartApiData} />
+        {error && <p className="text-danger">Error: {error.message}</p>}
+        {apiData ? (
+          <CardRender searchedProduct={apiData} />
         ) : (
-          <p>Loading Flipkart data...</p>
+          <p>Loading...</p>
         )}
-        {darazApiData ? (
-          <CardRender searchedProduct={darazApiData} />
-        ) : (
-          <p>Loading Daraz data...</p>
-        )}
-        {error && <p>Error: {error.message}</p>}
       </div>
     </div>
   );
