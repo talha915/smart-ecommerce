@@ -17,12 +17,12 @@
         },
         {
             "id": 4,
-            "name": "Smart Watches",
+            "name": "smartwatch",
             "image": "smartwatches.jpg"
         },
         {
             "id": 5,
-            "name": "Notebooks",
+            "name": "Microsoft Notebook",
             "image": "notebooks.jpg"
         },
         {

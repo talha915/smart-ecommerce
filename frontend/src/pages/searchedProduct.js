@@ -1,12 +1,50 @@
 import Header from '@/components/header';
 import CardRender from '@/components/cardRender';
-import data from '../constants/data.json';
+import { useEffect, useState } from 'react';
+import { fetchFlipkartData } from '../utils/apiFetch';
 
 import { useRouter } from 'next/router';
 
 function searchedProduct() {
 
+  const [flipkartApiData, setFlipkartData] = useState(null);
+  const [darazApiData, setDarazData] = useState(null);
+  const [error, setError] = useState(null);
   const router = useRouter();
+
+  const category = router.asPath.split('=')[1]
+
+  console.log("Router: ", category);
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const flipkartData = await fetchFlipkartData(category);
+        setFlipkartData(flipkartData);
+        console.log("Flipkart fetched", flipkartData);
+      } 
+      catch (err) {
+        setError(err);
+      }
+    };
+
+    getData();
+
+
+
+    const getDarazData = async () => {
+      try {
+        const darazData = await fetchFlipkartData(category);
+        setDarazData(darazData);
+        console.log("Daraz data fetched", darazData);
+      } 
+      catch (err) {
+        setError(err);
+      }
+    };
+
+    getDarazData();
+  }, []);
 
   return (
     <div>
@@ -14,9 +52,17 @@ function searchedProduct() {
         <Header />
       </div>
       <div className="container">
-          <CardRender searchedProduct={data} />
+        {flipkartApiData ? 
+          <CardRender searchedProduct={flipkartApiData} /> 
+          : 'Loading....'
+        }
+        {darazApiData ? 
+          <CardRender searchedProduct={darazApiData} /> 
+          : 'Loading....'
+        }
+        {/* <CardRender searchedProduct={data} /> */}
       </div>
-    </div> 
+    </div>
   );
 }
 
