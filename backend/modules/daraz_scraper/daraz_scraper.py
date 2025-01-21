@@ -32,6 +32,37 @@ class DarazScraper:
 
         return self.driver.page_source
 
+    # def parse_page(self, html_content):
+        """Parse the HTML content using BeautifulSoup and extract product data."""
+        soup = BeautifulSoup(html_content, "html.parser")
+        products = soup.find_all('div', class_='Bm3ON')
+
+        # Lists to store extracted data
+        product_data = []
+
+        for product in products:
+            title = product.find('a', {'title': True})
+            price = product.find('span', class_='ooOxS')
+            link = product.find('a', href=True)
+            location = product.find('span', class_='oa6ri')
+            # image = product.find('img', {'src': True})
+            product_image = product.find('div', class_='picture-wrapper').find('img')
+
+            if "img.drz.lazcdn.com" in product_image['src']:
+                product_price = price.get_text(strip=True) if price else "No price"
+                product_price = float(product_price.replace("Rs.", "").replace(",", "").strip())
+                if product_price != product_price:  # Check if NaN
+                    product_price = 0
+                product_data.append({
+                    "product_title": title['title'] if title else "No title",
+                    "product_price": product_price,
+                    "product_link": "https:" + link['href'] if link else "No link",
+                    # "product_location": location.get_text(strip=True) if location else "No location",
+                    "product_image": product_image['src'] if "img.drz.lazcdn.com" in product_image['src'] else "No image",
+                })
+
+        return product_data
+
     def parse_page(self, html_content):
         """Parse the HTML content using BeautifulSoup and extract product data."""
         soup = BeautifulSoup(html_content, "html.parser")
@@ -49,12 +80,23 @@ class DarazScraper:
             product_image = product.find('div', class_='picture-wrapper').find('img')
 
             if "img.drz.lazcdn.com" in product_image['src']:
+                product_price = price.get_text(strip=True) if price else None
+                
+                # Attempt to convert the price to a float, if possible
+                try:
+                    product_price = float(product_price.replace("Rs.", "").replace(",", "").strip())
+                    if product_price != product_price:  # Check if NaN
+                        product_price = None  # Replace NaN with 0
+                except ValueError:
+                    product_price = None  # Default to 0 if conversion fails
+
                 product_data.append({
                     "product_title": title['title'] if title else "No title",
-                    "product_price": price.get_text(strip=True) if price else "No price",
+                    "product_price": product_price,
                     "product_link": "https:" + link['href'] if link else "No link",
                     # "product_location": location.get_text(strip=True) if location else "No location",
                     "product_image": product_image['src'] if "img.drz.lazcdn.com" in product_image['src'] else "No image",
+                    "product_features": None
                 })
 
         return product_data

@@ -7,33 +7,71 @@ const CardRender = (props) => {
     const router = useRouter();
 
     const handleNavigation = (category) => {
-        router.push({
-            pathname: '/searchedProduct',  
-            query: { searchedtype: category },  
-        });
+        if (router.pathname == '/products') {
+            router.push({
+                pathname: '/searchedProduct',
+                query: { searchedtype: category },
+            });
+        }
     };
+
+    const handleSearchedNavigation = (data) => {
+        console.log("Data: ", data);
+        window.open(data.product_link, "_blank", "width=800,height=600,scrollbars=yes,resizable=yes");
+    }
 
     let data;
 
-    if(router.pathname == '/products') {
+    if (router.pathname == '/products') {
         data = props?.popularProducts?.popularCategories;
-    } 
-    else if(router.pathname == '/searchedProduct') {
+    }
+    else if (router.pathname == '/searchedProduct') {
         data = props?.searchedProduct?.data;
-        console.log("Props:" , props);
+        console.log("Props:", props);
     }
 
     const renderProducts = data.map((data, index) => {
         return (
             <div className="col-4 pt-5 pr-5" key={index}>
-                <Card style={{ width: '18rem', height: '550px' }} className="pointer-icon fixed-size-card" onClick={ router.pathname == '/products' ? ()=>handleNavigation(data.name) : ''}>
-                    <Card.Img style={{height: '425px'}} variant="top" src={router.pathname == '/searchedProduct' ? data.product_image : data.image} className="card-img-top" />
+                <Card
+                    style={{
+                        width: '18rem',
+                        height: router.pathname.includes('/searchedProduct') ? '550px' : '',
+                    }}
+                    className="pointer-icon fixed-size-card"
+                    onClick={() => {
+                        if (router.pathname === '/products') {
+                            handleNavigation(data.name);
+                        } 
+                        else if (router.pathname.includes('/searchedProduct')) {
+                            handleSearchedNavigation(data);
+                        }
+                    }}
+                >
+
+                    <Card.Img
+                        style={{
+                            height: router.pathname.includes('/searchedProduct') ? '425px' : '250px', // Dynamic height
+                            objectFit: 'contain', // Ensures the full image fits within the card
+                            width: '100%' // Full card width
+                        }}
+                        variant="top"
+                        src={router.pathname === '/searchedProduct' ? data.product_image : data.image}
+                        className="card-img-top"
+                    />
+
+
                     <Card.Body>
-                        <Card.Title className="text-center">{router.pathname == '/searchedProduct' ? data.product_title : data.name}</Card.Title>
+                        <p className="text-center card-text">
+                            {router.pathname === '/searchedProduct'
+                                ? `${data.product_title.slice(0, 55)}...`: data.name}
+                        </p>
                     </Card.Body>
-                    <CardFooter>
-                        <Card.Title className="text-center">{router.pathname == '/searchedProduct' ? "Rs. "+data.product_price : ''}</Card.Title>
-                    </CardFooter>
+                    {router.pathname.includes('/searchedProduct') ?
+                        <CardFooter>
+                            <Card.Title className="text-center">{router.pathname == '/searchedProduct' ? "Rs. " + data.product_price : ''}</Card.Title>
+                        </CardFooter>
+                        : ''}
                 </Card>
             </div>
         )
