@@ -83,15 +83,11 @@ def scrape_products(
 
     # # # Drop rows with invalid prices
     combined_df = combined_df.dropna(subset=['product_price'])
-    print(combined_df.columns)
-    print(combined_df.head(5))
     # # Sort by price in ascending order
     combined_df = combined_df.sort_values(by='product_price', ascending=True)
 
     # Convert back to JSON
     result = combined_df.to_dict(orient='records')
-
-    print(result)
 
     return {
         "data": result,

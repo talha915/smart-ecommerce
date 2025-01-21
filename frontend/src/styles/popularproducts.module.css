@@ -11,3 +11,8 @@
   height: 150px;   /* Fixed height */
   object-fit: cover; /* Cover the area without distortion */
 }
+
+.card-text {
+  font-size: smaller !important;
+  font-weight: 500 !important;
+}
