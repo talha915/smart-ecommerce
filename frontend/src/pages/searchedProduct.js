@@ -1,5 +1,6 @@
 import Header from '@/components/header';
 import CardRender from '@/components/cardRender';
+import Loader from '@/components/loader';
 import { useEffect, useState } from 'react';
 import { fetchProductsData } from '../utils/apiFetch';
 import { useRouter } from 'next/router';
@@ -15,6 +16,7 @@ function SearchedProduct() {
     const currentCategory = router.query.category || router.asPath.split('=')[1];
     if (currentCategory !== category) {
       setCategory(currentCategory);
+      setData(null);
       console.log("Updated Category:", currentCategory);
     }
   }, [router.query.category, router.asPath]);
@@ -51,7 +53,7 @@ function SearchedProduct() {
         {apiData ? (
           <CardRender searchedProduct={apiData} />
         ) : (
-          <p>Loading...</p>
+          <Loader />
         )}
       </div>
     </div>
