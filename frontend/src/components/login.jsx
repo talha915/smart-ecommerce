@@ -9,7 +9,7 @@ export default function GoogleLogin() {
         /* Load the Google SDK */
         const loadGoogleSDK = () => {
             window.google.accounts.id.initialize({
-                client_id: "256487852115-7i6gsb088lbclb8ulalccj5piorajibu.apps.googleusercontent.com", // Replace with your actual Google Client ID
+                client_id: "", // Replace with your actual Google Client ID
                 callback: handleCallbackResponse,
             });
 
