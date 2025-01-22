@@ -1,5 +1,6 @@
 import styles from '../styles/index.module.css'; // Import the CSS Module
 import Image from 'next/image';
+import GoogleLogin from './login';
 import { useRouter } from 'next/router';
 
 function HeroImage() {
@@ -27,9 +28,10 @@ function HeroImage() {
           <div className={styles.heroText}>
             <h2>Welcome to ShopEasy</h2>
             <p>Your one-stop shop for all your needs!</p>
-            <a onClick={handleNavigation} className={styles.heroButton}>
+            {/* <a onClick={handleNavigation} className={styles.heroButton}>
               Start Shopping
-            </a>
+            </a> */}
+            <GoogleLogin />
           </div>
         </div>
       </section>

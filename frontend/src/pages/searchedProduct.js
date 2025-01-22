@@ -4,6 +4,7 @@ import Loader from '@/components/loader';
 import { useEffect, useState } from 'react';
 import { fetchProductsData } from '../utils/apiFetch';
 import { useRouter } from 'next/router';
+import PrivateRoute from '@/components/privateRoute';
 
 function SearchedProduct() {
   const [apiData, setData] = useState(null);
@@ -44,19 +45,21 @@ function SearchedProduct() {
   }, [category]); // Dependency on state variable `category`
 
   return (
-    <div>
-      <div className="col-12">
-        <Header />
+    <PrivateRoute>
+      <div>
+        <div className="col-12">
+          <Header />
+        </div>
+        <div className="container">
+          {error && <p className="text-danger">Error: {error.message}</p>}
+          {apiData ? (
+            <CardRender searchedProduct={apiData} />
+          ) : (
+            <Loader />
+          )}
+        </div>
       </div>
-      <div className="container">
-        {error && <p className="text-danger">Error: {error.message}</p>}
-        {apiData ? (
-          <CardRender searchedProduct={apiData} />
-        ) : (
-          <Loader />
-        )}
-      </div>
-    </div>
+    </PrivateRoute>
   );
 }
 
