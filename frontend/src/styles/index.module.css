@@ -57,3 +57,12 @@
 .heroButton:hover {
   background-color: #2563eb;
 }
+
+
+.signoutBtn {
+  color: white;
+  border-radius: 9999px;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+}
